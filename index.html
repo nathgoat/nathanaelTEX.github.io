@@ -342,9 +342,10 @@
     .portrait img{
       width:100%; height:100%;
       object-fit: cover;
-      transform: scale(1.05);
-      filter: contrast(108%) saturate(115%);
+      transform: none;      /* ou garde scale si tu veux juste recadrer */
+      filter: none;         /* enlève le filtre */
     }
+
     .portrait::after{
       content:"";
       position:absolute; inset:0;
@@ -664,7 +665,7 @@
         </p>
 
         <div class="badges" aria-label="Points clés">
-          <div class="chip"><strong>Localisation :</strong> <em>Andard (49800)</em></div>
+          <div class="chip"><strong>sation :</strong> <em>Andard (49800)</em></div>
           <div class="chip"><strong>Alternance :</strong> <em>SI-ONE (2024 → 2026)</em></div>
           <div class="chip"><strong>+ :</strong> <em>Gestion du stress • Adaptation • Organisation</em></div>
         </div>
@@ -677,9 +678,8 @@
 
       <div class="card hero-right reveal">
         <div class="portrait" aria-label="Portrait">
-                 <div class="portrait" aria-label="Portrait">
           <!-- Remplacement du base64 (trop lourd) par un placeholder + upload local -->
-          <div id="portraitBox" style="position:absolute; inset:0; display:grid; place-items:center;">
+          <div id="portraitBox" style="position:absolute; inset:0; display:none; place-items:center;">
             <svg width="100%" height="100%" viewBox="0 0 900 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
               <defs>
                 <radialGradient id="g1" cx="30%" cy="30%" r="80%">
@@ -712,7 +712,9 @@
             </svg>
           </div>
 
-          <img id="portraitImg" alt="Portrait" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.05); filter:contrast(108%) saturate(115%);" />
+          <img id="portraitImg" src="IMG_3938.jpg" alt="Portrait"
+              style="display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
+
         </div>
 
         <div class="panel" style="padding:14px 14px; border-radius:22px;">
@@ -728,7 +730,7 @@
             </div>
             <div class="stat">
               <div class="k">Localisation</div>
-              <div class="v">Andard</div>
+              <div class="v">Angers</div>
             </div>
             <div class="stat">
               <div class="k">Permis</div>
@@ -736,13 +738,6 @@
             </div>
           </div>
 
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-            <label class="btn ghost" style="display:inline-flex; align-items:center; gap:8px;">
-              <span>Ajouter photo</span>
-              <input id="portraitUpload" type="file" accept="image/*" style="display:none;">
-            </label>
-            <button class="btn ghost" id="clearPortrait" type="button">Retirer</button>
-          </div>
         </div>
       </div>
     </section>
@@ -1039,10 +1034,8 @@
     })();
 
     // Portrait upload: keep single-file by letting user inject their image locally (saved in localStorage)
-    const up = document.getElementById('portraitUpload');
     const img = document.getElementById('portraitImg');
     const box = document.getElementById('portraitBox');
-    const clearBtn = document.getElementById('clearPortrait');
 
     function setPortrait(dataUrl){
       if(!dataUrl) return;
